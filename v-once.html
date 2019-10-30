@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-once使用</title>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+            <span v-once>This will never change: {{msg}}</span>
+            <p>{{msg}}</p>
+            <button @click="changeText">改变</button>
+    </div>
+    
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello world.'
+            },
+            methods: {
+                changeText() {
+                    this.msg = 'hello vue.'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
