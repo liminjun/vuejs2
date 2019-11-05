@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Listening to Events</title>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app" v-on:mousemove="udpateCoordinates">
+        <button v-on:click="increase">Click Me</button>
+        <p>{{counter}}</p>
+        <p>Coordinates:{{x}}/{{y}}
+
+            <span v-on:mousemove='dummy'>Dead spot</span>
+        </p>
+        <input type="text" v-on:keyup.enter="alertMe">
+    </div>
+    <script>
+    new Vue({
+        el:"#app",
+        data:{
+            counter:0,
+            x:0,
+            y:0
+        },
+        methods:{
+            increase:function(){
+                this.counter++;
+            },
+            udpateCoordinates:function(event){
+                this.x=event.clientX;
+                this.y=event.clientY;
+            },
+            dummy:function(event){
+                event.stopPropagation();
+            },
+            alertMe:function(){
+                alert('hello world.');
+            }
+        }
+    })
+    </script>
+</body>
+</html>

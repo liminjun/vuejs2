@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-if</title>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-if="show">you can see me</p>
+        <p v-else>you can see me.</p>
+
+        <p v-show="show">v-show content.</p>
+        <button @click="show=!show">Switch</button>
+
+        <hr>
+        <ul>
+            <li v-for="(item,index) in itemList" @key="item">{{index}}{{item}}</li>
+        </ul>
+        <button @click="itemList.push('lee')">Add new item</button>
+        <template v-for="(item,index) in itemList">
+            <h1>{{item}}</h1>
+            <p>{{index}}</p>
+        </template>
+
+        <span v-for="n in 10">{{n}}</span>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                show: true,
+                itemList:["lee",'wangjian','wangxing']
+            }
+        });
+    </script>
+</body>
+
+</html>
