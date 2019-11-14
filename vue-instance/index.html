@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,34 +8,72 @@
     <script src="https://npmcdn.com/vue/dist/vue.js"></script>
     <title>Vuejs instance</title>
 </head>
+
 <body>
     <div id="app">
         <h1>{{title}}</h1>
-        <button @click="show">Show paragraph</button>
+        <button @click="show" ref="myButton">Show paragraph</button>
         <p v-if="showParagraph">This is not always visible</p>
+        <hello></hello>
     </div>
+
+    <div id="app2">
+        <p>two vue instances.</p>
+        <h1>{{title}}</h1>
+        <button @click="onChange">update something in Vue1 instance.</button>
+    </div>
+    <div id="app3">
+
+    </div>
+    
     <script>
-    new Vue({
-        el:'#app',
-        data:{
-            title:"The vuejs instance",
-            showParagraph:false
-        },
-        methods:{
-            show:function(){
-                this.showParagraph = true;
-                this.updateTitle('The VueJS Instance updated')
+        Vue.component('hello', {
+            template: '<p>hello component</p>'
+        })
+        var vm1 = new Vue({
+            //el: '#app',
+            data: {
+                title: "The vuejs instance",
+                showParagraph: false
             },
-            updateTitle:function(title){
-                this.title=title;
+            methods: {
+                show: function () {
+                    this.showParagraph = true;
+                    this.updateTitle('The VueJS Instance updated');
+                    this.$refs.myButton.innerText = "Test";
+                    console.log("$refs", this.$refs);
+                },
+                updateTitle: function (title) {
+                    this.title = title;
+                }
+            },
+            computed: {
+                lowercaseTitle: function () {
+                    return this.title.toLowerCase();
+                }
             }
-        },
-        computed:{
-            lowercaseTitle:function(){
-                return this.title.toLowerCase();
+        })
+        vm1.$mount("#app");
+        vm1.newProp = 'new!';
+        console.log("vm1:", vm1);
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                title: "hello world."
+            },
+            methods: {
+                onChange: function () {
+                    vm1.title = "changed!"
+                }
             }
-        }
-    })
+        });
+        var vm3 = new Vue({
+            template: "<h1>hello world.</h1>"
+        });
+        vm3.$mount();
+        document.getElementById("app3").appendChild(vm3.$el);
     </script>
 </body>
+
 </html>

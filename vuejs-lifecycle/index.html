@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <title>Vuejs instance</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <h1>{{title}}</h1>
+        <button @click="title='changed!'">Update title.</button>
+        <button @click="destory">Destoryed</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                title: "hello world."
+            },
+            methods: {
+                destory: function () {
+                    this.destroyed();
+                }
+            },
+            beforeCreate: function () {
+                console.log("beforeCreate()");
+            },
+            updated: function () {
+                console.log("updated()");
+            },
+            destroyed: function () {
+                console.log("destroyed()");
+            }
+        })
+    </script>
+</body>
+
+</html>
