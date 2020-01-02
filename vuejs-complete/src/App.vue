@@ -1,26 +1,26 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <app-user></app-user>
-            </div>
-        </div>
+        <h1>hello world.</h1>
+        <app-quote-grid :quotes='quotes'></app-quote-grid>
     </div>
 </template>
 
 <script>
-    import User from './components/User.vue';
+import QuoteGrid from './components/QuoteGrid';
 
     export default {
-        components: {
-            appUser: User
+        data: function(){
+            return {
+                quotes:[],
+                maxQuotes:0
+            }
+        },
+        components:{
+            appQuoteGrid:QuoteGrid
         }
     }
 </script>
 
 <style>
-    div.component {
-        border: 1px solid black;
-        padding: 30px;
-    }
+
 </style>
