@@ -160,7 +160,7 @@
                 message: 'A new Text',
                 sendMail: [],
                 gender: 'Male',
-                selectedPriority: 'High',
+                selectedPriority: 'Low',
                 priorities: ['High', 'Medium', 'Low'],
                 dataSwitch: true,
                 isSubmitted: false
