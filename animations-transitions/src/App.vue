@@ -3,15 +3,30 @@
     <div class="row">
       <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
         <h1>Animations</h1>
+        <select v-model="alertAnimation" name="" id="" class="form-control">
+          <option value="fade">Fade</option>
+          <option value="slide">Slide</option>
+        </select>
         <hr />
         <button class="btn btn-primary" @click="show=!show">Show Alert</button>
         <br />
         <br />
-        <transition name="fade">
+
+        <transition :name="alertAnimation">
           <div class="alert alert-info" v-if="show">This is some info.</div>
         </transition>
         <transition name="slide" type="animation">
           <div class="alert alert-info" v-if="show">This is some info.</div>
+        </transition>
+        <transition appear="" enter-class="" enter-active-class="animated bounce"
+          leave-class=""
+          leave-active-class="animated shake">
+          <div class="alert alert-info" v-if="show">This is some info.</div>
+        </transition>
+
+        <transition :name="alertAnimation" mode="out-in">
+          <div class="alert alert-info" v-if="show" key="info">This is some info.</div>
+          <div class="alert alert-warning" v-else key="warning">This is some info.</div>
         </transition>
       </div>
     </div>
@@ -25,7 +40,8 @@ export default {
   mixins: [fruitMixin],
   data() {
     return {
-      show: false
+      show: true,
+      alertAnimation: 'fade'
     };
   }
 };
