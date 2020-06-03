@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
         <h1>Animations</h1>
-        <select v-model="alertAnimation" name="" id="" class="form-control">
+        <select v-model="alertAnimation" name id class="form-control">
           <option value="fade">Fade</option>
           <option value="slide">Slide</option>
         </select>
@@ -18,9 +18,13 @@
         <transition name="slide" type="animation">
           <div class="alert alert-info" v-if="show">This is some info.</div>
         </transition>
-        <transition appear="" enter-class="" enter-active-class="animated bounce"
-          leave-class=""
-          leave-active-class="animated shake">
+        <transition
+          appear
+          enter-class
+          enter-active-class="animated bounce"
+          leave-class
+          leave-active-class="animated shake"
+        >
           <div class="alert alert-info" v-if="show">This is some info.</div>
         </transition>
 
@@ -28,44 +32,124 @@
           <div class="alert alert-info" v-if="show" key="info">This is some info.</div>
           <div class="alert alert-warning" v-else key="warning">This is some info.</div>
         </transition>
+        <button class="btn btn-primary" @click="load = !load">Load / Remove Element</button>
+        <br />
+        <br />
+        <transition
+          @before-enter="beforeEnter"
+          @enter="enter"
+          @after-enter="afterEnter"
+          @enter-cancelled="enterCancelled"
+          @before-leave="beforeLeave"
+          @leave="leave"
+          @after-leave="afterLeave"
+          @leave-cancelled="leaveCancelled"
+          :css="false"
+        >
+          <div style="width: 300px; height: 100px; background-color: lightgreen" v-if="load"></div>
+        </transition>
+
+        <button
+          class="btn btn-primary"
+          @click="selectedComponent == 'app-success-alert' ? selectedComponent = 'app-danger-alert' : selectedComponent = 'app-success-alert'"
+        >Toogle Components</button>
+        <br />
+        <br />
+        <transition name="fade" mode="out-in">
+          <component :is="selectedComponent"></component>
+        </transition>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import List from "./List.vue";
-import { fruitMixin } from "./fruitMixin";
+import DangerAlert from "./DangerAlert.vue";
+import SuccessAlert from "./SuccessAlert.vue";
 export default {
-  mixins: [fruitMixin],
   data() {
     return {
       show: true,
-      alertAnimation: 'fade'
+      alertAnimation: "fade",
+      load: false,
+      elementWidth: 100,
+      selectedComponent: "app-success-alert"
     };
+  },
+  methods: {
+    beforeEnter(el) {
+      console.log("beforeEnter");
+      this.elementWidth = 100;
+      el.style.width = this.elementWidth + "px";
+    },
+    enter(el, done) {
+      console.log("enter");
+      let round = 1;
+      const interval = setInterval(() => {
+        el.style.width = this.elementWidth + round * 10 + "px";
+        round++;
+        if (round > 20) {
+          clearInterval(interval);
+          done();
+        }
+      }, 20);
+    },
+    afterEnter(el) {
+      console.log("afterEnter");
+    },
+    enterCancelled(el) {
+      console.log("enterCancelled");
+    },
+    beforeLeave(el) {
+      console.log("beforeLeave");
+      this.elementWidth = 300;
+      el.style.width = this.elementWidth + "px";
+    },
+    leave(el, done) {
+      console.log("leave");
+      let round = 1;
+      const interval = setInterval(() => {
+        el.style.width = this.elementWidth - round * 10 + "px";
+        round++;
+        if (round > 20) {
+          clearInterval(interval);
+          done();
+        }
+      }, 20);
+    },
+    afterLeave(el) {
+      console.log("afterLeave");
+    },
+    leaveCancelled(el) {
+      console.log("leaveCancelled");
+    }
+  },
+  components: {
+    appDangerAlert: DangerAlert,
+    appSuccessAlert: SuccessAlert
   }
 };
 </script>
 
 <style>
-.fade-enter{
+.fade-enter {
   opacity: 0;
 }
-.fade-enter-active{
+.fade-enter-active {
   transition: opacity 1s;
 }
 .fade-leave {
   /* opacity: 1; */
 }
 .fade-leave-active {
-   transition: opacity 1s;
-   opacity: 0;
+  transition: opacity 1s;
+  opacity: 0;
 }
-.slide-enter{
+.slide-enter {
   opacity: 0;
   /* animation: slide-in 1s ease-out forwards; */
 }
-.slide-enter-active{
+.slide-enter-active {
   animation: slide-in 1s ease-out forwards;
   transition: opacity 0.5s;
 }
@@ -73,9 +157,9 @@ export default {
   /* opacity: 1; */
 }
 .slide-leave-active {
-   animation: slide-out 1s ease-out forwards;
-   transition: opacity 3s;
-   opacity: 0;
+  animation: slide-out 1s ease-out forwards;
+  transition: opacity 3s;
+  opacity: 0;
 }
 @keyframes slide-in {
   from {
