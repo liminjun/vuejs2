@@ -1,4 +1,10 @@
 <template>
-    <h3>Some User Details</h3>
+    <div>
+        <h3>Some User Details</h3>
+        <p>User ID:{{$route.params.id}}</p>
+        <router-link 
+        class="btn btn-primary"
+        tag="button" :to="'/user/' + $route.params.id + '/edit'">Edit</router-link>
+    </div>
     
 </template>
