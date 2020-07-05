@@ -8,3 +8,11 @@
 
     </div>
 </template>
+<script>
+export default {
+    created() {
+        debugger
+        localStorage.setItem('currentPoolId','shagnhai');
+    }
+}
+</script>
